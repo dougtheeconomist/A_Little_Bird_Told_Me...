@@ -62,7 +62,7 @@ len(indexlist)  #786
 786/2002   # =0.3926
 #Tells us that 39% of our relevant tweets are retweets
 
-#Step2)
+#Step2: isolating incomplete tweets
 indexlist2 = []
 for i in range(0, 2037):
     if '… https://t.co' in (df['Text'][i]):
@@ -79,6 +79,18 @@ for num in indexlist:
         cut_RT.append(num)
 cut_RT  # empty, no overlap! Makes things easier
 
+#Extracting urls to scrape:
+scrapelist = []
+for i in indexlist2:
+    splitlist = df['Text'][i].split()
+    count =0
+    while count < 1:
+        check = splitlist.pop()
+        if 'https://t.co/' in check:
+            scrapelist.append(check)
+            count += 1
+        else:
+            continue
 
 #to track tweets BY CNI(all 18 of them)
 cni_indexlist = []
