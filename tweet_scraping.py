@@ -29,7 +29,22 @@ pages.count_documents({})  #if this doesn't match len(scrapelist), issues
 '''~~~~~~~~~~~~~~~~~isolating, saving text from block to list~~~~~~~~~~~~~~~~~'''
 #isolating tweet with hashtag info from last page
 soup.find_all('title')[0].text
-
+#OR
+soup.find("title").text
 '''
 the thing that lagged me down was 
 list(pages.find({}))
+'''
+
+huge_thing = list(pages.find({}))
+tweetlist = []
+for i in range(0, len(huge_thing)):
+    if i == 33:
+        pass
+    else:
+        soup2 = BeautifulSoup(huge_thing[i]['html'])
+        tweetlist.append(soup2.find("title").text)
+
+len(tweetlist)  #588 because one didn't run properly
+
+tlinex32 ='Cliff Lynch talking about many manifestations of balkanization that are happening. One is that the urban/rural broadband divide is getting worse not better - consequences for access to medical services, employment #cni19f'
