@@ -27,3 +27,9 @@ for i, item in enumerate(scrapelist):
 pages.count_documents({})  #if this doesn't match len(scrapelist), issues
 #Both are 589
 '''~~~~~~~~~~~~~~~~~isolating, saving text from block to list~~~~~~~~~~~~~~~~~'''
+#isolating tweet with hashtag info from last page
+soup.find_all('title')[0].text
+
+'''
+the thing that lagged me down was 
+list(pages.find({}))
