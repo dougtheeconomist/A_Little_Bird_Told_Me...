@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 data/cni_tweets.csv
+url_list.txt
 # C extensions
 *.so
 
