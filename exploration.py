@@ -46,7 +46,50 @@ Steps for cleaning to address this:
     row 686 of original data but found another one that is just pictures of a talks slides
     4)
 '''
+#Step 1)
+#turns out I needed to do this before removing rows
+indexlist = []
+for i in range(0, 2037):
+    if (df['Text'][i][0:2]) == 'RT':
+        indexlist.append(i)
+    else:
+        pass
+len(indexlist)  #786
+
+
+
+#786 retweets
+786/2002   # =0.3926
+#Tells us that 39% of our relevant tweets are retweets
+
+#Step2)
+indexlist2 = []
+for i in range(0, 2037):
+    if '… https://t.co' in (df['Text'][i]):
+        indexlist2.append(i)
+    else:
+        pass
+len(indexlist2) #589
+589/2002  #0.2942
+
+#checking if these indices overlap
+cut_RT = []
+for num in indexlist:
+    if num in indexlist2:
+        cut_RT.append(num)
+cut_RT  # empty, no overlap! Makes things easier
+
+
+#to track tweets BY CNI(all 18 of them)
+cni_indexlist = []
+for i in range(0, 2037):
+    if (df['Name'][i] == 'CNI'):
+        cni_indexlist.append(i)
+    else:
+        pass
+
 #language column can be sorted by 'und' to filter out tweets that are just urls
+#Step 3)
 df = df[df["Language"] != 'und']
 #language 'or' are just paper title with url, so probably don't need them either
 df = df[df["Language"] != 'ro']
