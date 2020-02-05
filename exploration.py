@@ -96,6 +96,14 @@ for i in indexlist2:
 with open('data/fulltweet_list.txt', 'r') as scraped:
     primelist = json.load(scraped)
 
+mergedf =pd.DataFrame(data = primelist, index = indexlist2)
+#here are the indexes to merge on
+df.Text.iloc[indexlist2[400]]
+mergedf.iloc[400]
+
+for i in range(0, len(indexlist2):
+    df.replace(to_replace= df.Text.iloc[indexlist2[i]], value= mergedf.iloc[i])
+
 #to track tweets BY CNI(all 18 of them)
 cni_indexlist = []
 for i in range(0, 2037):
