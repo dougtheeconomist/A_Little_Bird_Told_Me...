@@ -10,6 +10,7 @@ import json # to work with json file format
 from bs4 import BeautifulSoup
 import pprint
 import requests
+import re
 
 with open('data/url_list.txt', 'r') as scraper:
     scrapelist = json.load(scraper)
@@ -48,3 +49,31 @@ for i in range(0, len(huge_thing)):
 len(tweetlist)  #588 because one didn't run properly
 
 tlinex32 ='Cliff Lynch talking about many manifestations of balkanization that are happening. One is that the urban/rural broadband divide is getting worse not better - consequences for access to medical services, employment #cni19f'
+#to clip twitter handles from beginning of string
+def clipper(tweet):
+    marker = None
+    for i in range(0, len(tweet)):
+        if tweet[i] =='"':
+            marker = i
+            break
+        else:
+            continue
+    out = tweet[i:-1]
+    return out
+
+primelist = []
+for i in range(0, len(tweetlist)):
+    primelist.append(clipper(tweetlist[i]))
+len(primelist)
+primelist.insert(33,tlinex32)
+#now I have new list to import back into main file
+'''
+refined_list = ["Whether you can attend in person or not, the CNI mtg roadmap is always a great what\'s going on read/update. If you will be at #cni19f I hope to see you at my session w @thecorkboard on privacy in learning analytics!\n\nhttps://t.co/cjQtPk700C",
+               "Whether you can attend in person or not, the CNI mtg roadmap is always a great what\'s going on read/update. If you will be at #cni19f I hope to see you at my session w @thecorkboard on privacy in learning analytics!\n\nhttps://t.co/cjQtPk700C",
+               "Whether you can attend in person or not, the CNI mtg roadmap is always a great what\'s going on read/update. If you will be at #cni19f I hope to see you at my session w @thecorkboard on privacy in learning analytics!\n\nhttps://t.co/cjQtPk700C",
+               "Whether you can attend in person or not, the CNI mtg roadmap is always a great what\'s going on read/update. If you will be at #cni19f I hope to see you at my session w @thecorkboard on privacy in learning analytics!\n\nhttps://t.co/cjQtPk700C"]
+for i in range(4,len(tweetlist)):
+    refined_list.append(re.findall(r'\"(.+?)\"',tweetlist[i]))
+len(refined_list)
+refined_list.insert(33, tlinex32)
+'''

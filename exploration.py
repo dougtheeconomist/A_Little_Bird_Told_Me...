@@ -91,6 +91,10 @@ for i in indexlist2:
             count += 1
         else:
             continue
+'''SEE tweet_scraping.py FOR NEXT INTERMEDIATE STEPS'''
+#importing scraped data back in to replace partials
+with open('data/fulltweet_list.txt', 'r') as scraped:
+    primelist = json.load(scraped)
 
 #to track tweets BY CNI(all 18 of them)
 cni_indexlist = []
