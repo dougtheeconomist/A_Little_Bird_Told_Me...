@@ -2,6 +2,7 @@
 #Author: Doug Hart
 #Date Created: 2/5/2020
 #Last Updated: 2/6/2020
+from sklearn.feature_extraction import text
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from scipy.optimize import nnls
 from sklearn.decomposition import NMF
@@ -9,7 +10,7 @@ from nltk.tokenize import word_tokenize
 from nltk.stem.wordnet import WordNetLemmatizer
 import string
 nltk.download('punkt')
-from functions.py import tokenize, tidy_up
+from functions import tokenize, tidy_up
 import numpy as np
 import pandas as pd
 
@@ -21,18 +22,11 @@ tidy_up(df)
 
 
 '''~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~NLP Time~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'''
+to_filter = ['#', ':', '!','“', '”', 't', 's', '’',';','@','&','cni19f','``','-','(', ')','.',"''",'...',',']
 
 data = df.Text
 content = data
 wordnet = WordNetLemmatizer()
-def tokenize(doc):
-    '''
-    INPUT: string
-    OUTPUT: list of strings
-
-    Tokenize and stem/lemmatize the document.
-    '''
-    return [wordnet.lemmatize(word) for word in word_tokenize(doc.lower())]
 
 #V1
 vectorizer = CountVectorizer(tokenizer= tokenize, stop_words='english', max_features=5000)
@@ -40,9 +34,26 @@ vectorizer = CountVectorizer(tokenizer= tokenize, stop_words='english', max_feat
 vectorizer = CountVectorizer(strip_accents='unicode', tokenizer= tokenize, stop_words='english', analyzer = 'word', max_features=5000)
 #V3
 vectorizer = CountVectorizer(strip_accents='unicode', tokenizer= tokenize, stop_words=text.ENGLISH_STOP_WORDS.union(), analyzer = 'word', max_features=5000)
-text.ENGLISH_STOP_WORDS.union(my_additional_stop_words)
-#V4
-vectorizer = TfidfVectorizer()
+#reconstruction error: 126.14881541284356
+
+#V4 2000 Less features, a couple more stop words
+vectorizer = CountVectorizer(strip_accents='unicode', tokenizer= word_tokenize, stop_words=text.ENGLISH_STOP_WORDS.union(to_filter), analyzer = 'word', max_features=3000)
+#reconstruction error: 121.3807190237805
+
+#V5 500 less feature, more stop words
+vectorizer = CountVectorizer(strip_accents='unicode', tokenizer= word_tokenize, stop_words=text.ENGLISH_STOP_WORDS.union(to_filter), analyzer = 'word', max_features=2500)
+#reconstruction error: 118.59462496974123
+
+#V6 cut down to 1000 max features
+vectorizer = CountVectorizer(strip_accents='unicode', tokenizer= word_tokenize, stop_words=text.ENGLISH_STOP_WORDS.union(to_filter), analyzer = 'word', max_features=1000)
+#reconstruction error: 103.50973482444792
+
+#V7 with just 500 features, getting scary
+#re: 89.34899301698549
+
+#V8 1250 features, or one per observation
+#reconstruction error: 107.62346022537453
+
 X = vectorizer.fit_transform(content)
 V = X.toarray()
 features = vectorizer.get_feature_names()
@@ -56,8 +67,8 @@ for i in indexlist:
 nmf = NMF(n_components=10)
 W =nmf.fit_transform(V)
 H = nmf.components_
-
 nmf.inverse_transform(W)
+print('reconstruction error:', nmf.reconstruction_err_)
 
 topical = np.argsort(H, axis = 1)
 topwords = topical[:, -10:]
@@ -70,4 +81,24 @@ for i in range(10):
 words2
 #this is my first carbage model. It tells me that I need to add more stopword
 #as there are still a lot of punctuation/grammer words making it in. 
-to_filter = ['#', ':', '!','“', '”', 't', 's', '’',';','@','&','cni19f','``','-','(', ')']]
+
+re =[125.46974230764488,125.46974231397594,125.46974228293287,125.46974231359194,
+124.73021092995954,122.71859441059775,120.67649238366758,118.59462495454986,115.63319731909372,
+111.04753081173351,103.50973482444792,89.34899301698549]
+features [6000,5500,5000,4500,4000,3500,3000,2500,2000,1500,1000,500]
+
+def get_errors(comps):
+    errorlist = []
+    for i in comps:
+        vectorizer = TfidfVectorizer(tokenizer= word_tokenize, stop_words=text.ENGLISH_STOP_WORDS.union(to_filter),max_features=3000, strip_accents='unicode', analyzer = 'word')
+        X = vectorizer.fit_transform(content)
+        V = X.toarray()
+        features = vectorizer.get_feature_names()
+        W = np.random.rand(data.shape[0],10)
+        H = np.zeros((10,5000)) 
+        nmf = NMF(n_components=i)
+        W =nmf.fit_transform(V)
+        H = nmf.components_
+        nmf.inverse_transform(W)
+        errorlist.append(nmf.reconstruction_err_)
+    return errorlist

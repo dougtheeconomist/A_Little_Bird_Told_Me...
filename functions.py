@@ -1,3 +1,9 @@
+#Title: CNI analysis functions
+#Author: Doug Hart
+#Date Created: 2/6/2020
+#Last Updated: 2/6/2020
+
+
 def tokenize(doc):
     '''
     INPUT: string
