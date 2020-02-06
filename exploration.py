@@ -103,6 +103,16 @@ mergedf.iloc[400]
 
 for i in range(0, len(indexlist2):
     df.replace(to_replace= df.Text.iloc[indexlist2[i]], value= mergedf.iloc[i])
+#saved this to csv, complete_tweets
+
+flag1 = 'After nearly a year of work and many conversations I am proud to release:Responsible Operations'
+df.drop('flag', axis=1)
+df['flag'] = 0
+for i in range(2037):
+    if flag1 in df.Text[i]:
+        df.flag[i] = 1
+sum(df.flag)  #= 192
+# or 114? after updating with whole tweets, this decreased, what happened
 
 #to track tweets BY CNI(all 18 of them)
 cni_indexlist = []
@@ -127,3 +137,13 @@ df = df[df["ID"] != 1204381864087166977]
 df = df[df["ID"] != 1204205653893566464]
 df = df[df["ID"] != 1204204698397483010]
 df = df[df["ID"] != 1204193158080401414]
+df.drop(axis = 0, index= )
+spamlist =[1943, 1944, 1945, 1946]
+for i in spamlist:
+    df.drop(axis=0, index=i, inplace=True)
+#dropping empty and non-relevant columns
+df.drop('Profile Image', inplace=True, axis = 1)
+df.drop('Time Zone', inplace=True, axis = 1)
+df.drop('Geo', inplace=True, axis = 1)
+#after looking at a random sample of the media column, have concluded not important
+df.drop('Media', inplace=True, axis = 1)
