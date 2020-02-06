@@ -1,7 +1,7 @@
 #Title: all-a-twitter_cni_member_conference
 #Author: Doug Hart
 #Date Created: 2/3/2020
-#Last Updated: 2/3/2020
+#Last Updated: 2/5/2020
 
 import numpy as np
 import pandas as pd
