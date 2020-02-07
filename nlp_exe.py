@@ -126,3 +126,18 @@ def get_errors(list_):
         print('*')
     return errorlist
     #output is basically the same as from beta version ‾\_(ツ)_/‾ 
+
+
+#Examples of hand labeler:
+#1
+hand_labels = hand_label_topics(H, vocabulary)
+#then check with
+rand_articles = np.random.choice(range(len(W)), 15)
+
+for i in rand_articles:
+    analyze_article(i, contents, web_urls, W, hand_labels)
+#2
+hand_labels = hand_label_topics(H, vocabulary)
+
+for i in rand_articles:
+    analyze_article(i, contents, web_urls, W, hand_labels)

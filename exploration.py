@@ -124,9 +124,17 @@ for i in range(0, 2037):
 
 #language column can be sorted by 'und' to filter out tweets that are just urls
 #Step 3)
-df = df[df["Language"] != 'und']
+
+# OR
+morespam = []
+for i in range(0,len(df.Language)):
+    if df.Language[i] == 'und':
+        morespam.append(i)
+for i in range(0,len(df.Language)):
+    if df.Language == 'ro':
+        morespam.append(i)
 #language 'or' are just paper title with url, so probably don't need them either
-df = df[df["Language"] != 'ro']
+
 #rows 1945-1948 are spam, but not deparcated by language tag
 #ID values for these rows are:
 1204381864087166977
@@ -147,3 +155,10 @@ df.drop('Time Zone', inplace=True, axis = 1)
 df.drop('Geo', inplace=True, axis = 1)
 #after looking at a random sample of the media column, have concluded not important
 df.drop('Media', inplace=True, axis = 1)
+
+#Identifying tweets by CNI
+cnilist = []
+for i in range(0,2037):
+    if df.username[i] == 'cni_org':
+        cnilist.append(i)
+cnilist
