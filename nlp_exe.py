@@ -19,12 +19,24 @@ import pandas as pd
 
 df = pd.read_pickle('mct.pkl', compression='zip')
 
+retwote = []
+for i in retweet_list:
+    retwote.append(cutter(i))
+len(retwote)
+df['retwote'] =0
+for i in range(0,2037):
+    count = 0
+    for j in range(0,786):
+        if df.username[i] == retwote[j]:
+            count += 1
+    df.retwote = count
+
 #should do data selection first. i.e. all rows, exclude RTs, etc.
 tidy_up(df)
 
 
 '''~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~NLP Time~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'''
-to_filter = ['#', ':', '!','“', '”', 't', 's', '’',';','@','&','cni19f','``','-','(', ')','.',"''",'...',',']
+to_filter = ['#', ':', '!','“', '”', 't', 's', '’',';','@','&','cni19f','``','-','(', ')','.',"''",'...',',','*','%','--',"'",'https']
 
 data = df.Text
 content = data
@@ -127,6 +139,21 @@ def get_errors(list_):
     return errorlist
     #output is basically the same as from beta version ‾\_(ツ)_/‾ 
 
+'''~~~~~~~~~~~~~~~~~~~~~~~~~Moving forward for now~~~~~~~~~~~~~~~~~~~~~~~~~'''
+#WITH 2000 max features, 10 categories
+vectorizer = TfidfVectorizer(tokenizer= word_tokenize, stop_words=text.ENGLISH_STOP_WORDS.union(to_filter),max_features=2000, strip_accents='unicode', analyzer = 'word')
+X = vectorizer.fit_transform(content)
+V = X.toarray()
+features = vectorizer.get_feature_names()
+W = np.random.rand(data.shape[0],10)
+H = np.zeros((10,2000)) 
+V.shape  # (1128, 2000)
+nmf = NMF(n_components=10)
+W =nmf.fit_transform(V)
+H = nmf.components_
+nmf.inverse_transform(W)
+print('reconstruction error:', nmf.reconstruction_err_)
+#reconstruction error: 31.829236010766092
 
 #Examples of hand labeler:
 #1

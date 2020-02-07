@@ -14,6 +14,7 @@ def tokenize(doc):
     return [wordnet.lemmatize(word) for word in word_tokenize(doc.lower()) if word.isalpha()]
 
 def tidy_up(df):
+    '''to drop columns, rows that aren't needed or that contain non'relevant data'''
     df.drop('Profile Image', inplace=True, axis = 1)
     df.drop('Time Zone', inplace=True, axis = 1)
     df.drop('Geo', inplace=True, axis = 1)
@@ -22,7 +23,8 @@ def tidy_up(df):
     df.rename(columns={'Universal Time Stamp': 'univ_ts', 
                     'Local Time Stamp': 'local_ts',
                     'User Mentions': 'user_mentions',
-                    'Follower Count': 'follower_count'}, inplace=True)
+                    'Follower Count': 'follower_count',
+                    'User Name': 'username'}, inplace=True)
 
     indexlist = []
     for i in range(0, 2037):
@@ -39,7 +41,7 @@ def tidy_up(df):
         if df.Language[i] == 'und':
             morespam.append(i)
     for i in range(0,len(df.Language)):
-        if df.Language == 'ro':
+        if df.Language[i] == 'ro':
             morespam.append(i)
 
     maybespam = []
@@ -47,9 +49,9 @@ def tidy_up(df):
         if 'After nearly a year of work and many conversations I am proud to release' in df.Text[i]:
             maybespam.append(i)
      #contains spam and tweets by cni
-    droplist =[0,4,42,48,417,1139,1161,1338,1537,1579,1801,1802,1898,1940,
+    droplist =[0,4,14,15,16,42,48,417,1139,1161,1338,1537,1579,1801,1802,1898,1940,
     1943, 1944, 1945, 1946,1973,2008,2020,2027]
-    droplist.extend(spamlist)
+    droplist.extend(morespam)
     droplist.extend(maybespam)
     droplist.extend(indexlist)
     droplist.sort()
@@ -60,17 +62,18 @@ def tidy_up(df):
 
 #From the internet; finding topwords in categories from nmf
 
-def get_nmf_topics(model, n_top_words=10):
+def get_nmf_topics(model, n_top_words=10, num_topics=10):
     
     #the word ids obtained need to be reverse-mapped to the words so we can print the topic names.
-    feat_names = vectorizer.get_feature_names()
+    features = vectorizer.get_feature_names()
     
     word_dict = {}
     for i in range(num_topics):
         
         #for each topic, obtain the largest values, and add the words they map to into the dictionary.
         words_ids = model.components_[i].argsort()[:-20 - 1:-1]
-        words = [feat_names[key] for key in words_ids]
+        # words = [feat_names[key] for key in words_ids]
+        words = [features[key] for key in words_ids]
         word_dict['Topic # ' + '{:02d}'.format(i+1)] = words
     
     return pd.DataFrame(word_dict)
@@ -78,6 +81,7 @@ def get_nmf_topics(model, n_top_words=10):
 # to call; get_nmf_topics(model, 20)
 
 def run_it(data, feat, groups):
+    '''Beta version, not sure what in all to return'''
     data_ = data
     content = data
     wordnet = WordNetLemmatizer()
@@ -110,3 +114,16 @@ def hand_label_topics(H, vocabulary):
         hand_labels.append(label)
         print()
     return hand_labels
+
+def cutter(tweet):
+    '''to cut origin handle out of retweets
+    to match retweet to origin'''
+    marker = None
+    for i in range(0, len(tweet)):
+        if tweet[i] ==':':
+            marker = i
+            break
+        else:
+            continue
+    out = tweet[4:]
+    return out

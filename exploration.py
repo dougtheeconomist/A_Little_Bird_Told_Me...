@@ -162,3 +162,20 @@ for i in range(0,2037):
     if df.username[i] == 'cni_org':
         cnilist.append(i)
 cnilist
+
+
+handles = set(df.username)
+len(handles)  #653
+handles_ = [item for item in handles]
+len(handles_)
+n_rts = []
+
+for i in range(0,653):
+    count = 0
+    for j in range(0,786):
+        if handles_[i] == retwote[j]:
+            count += 1
+    n_rts.append(count)
+for i in range(653):
+print('{}, {}rts'.format(handles_[i],n_rts[i]))
+#cni is number 410 with 25 retweets
