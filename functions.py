@@ -31,9 +31,9 @@ def tidy_up(df):
         else:
             pass
     len(indexlist)  #786
-    for i in indexlist:
-        df.drop(axis=0, index=i, inplace=True)
-    #contains spam and tweets by cni
+    # for i in indexlist:
+    #     df.drop(axis=0, index=i, inplace=True)
+   
     morespam = []
     for i in range(0,len(df.Language)):
         if df.Language[i] == 'und':
@@ -46,14 +46,16 @@ def tidy_up(df):
     for i in range(0,2037):
         if 'After nearly a year of work and many conversations I am proud to release' in df.Text[i]:
             maybespam.append(i)
-
+     #contains spam and tweets by cni
     droplist =[0,4,42,48,417,1139,1161,1338,1537,1579,1801,1802,1898,1940,
     1943, 1944, 1945, 1946,1973,2008,2020,2027]
     droplist.extend(spamlist)
     droplist.extend(maybespam)
+    droplist.extend(indexlist)
     droplist.sort()
+    dropset = set(droplist)
 
-    for i in droplist:
+    for i in dropset:
         df.drop(axis=0, index=i, inplace=True)
 
 #From the internet; finding topwords in categories from nmf
