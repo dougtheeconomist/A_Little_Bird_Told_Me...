@@ -12,7 +12,7 @@ from sklearn.metrics import silhouette_samples, silhouette_score
 
 import string
 nltk.download('punkt')
-from functions import tokenize, tidy_up
+from functions import tokenize, tidy_up, hand_label_topics
 import numpy as np
 import pandas as pd
 

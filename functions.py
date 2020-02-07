@@ -73,3 +73,19 @@ def run_it(data, feat, groups):
     nmf.inverse_transform(W)
     print('reconstruction error:', nmf.reconstruction_err_)
     return V, H, W
+
+def hand_label_topics(H, vocabulary):
+    '''
+    Print the most influential words of each latent topic, and prompt the user
+    to label each topic. The user should use their humanness to figure out what
+    each latent topic is capturing.
+    '''
+    hand_labels = []
+    for i, row in enumerate(H):
+        top_five = np.argsort(row)[::-1][:20]
+        print('topic', i)
+        print('-->', ' '.join(vocabulary[top_five]))
+        label = input('please label this topic: ')
+        hand_labels.append(label)
+        print()
+    return hand_labels
