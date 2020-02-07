@@ -8,6 +8,8 @@ from scipy.optimize import nnls
 from sklearn.decomposition import NMF
 from nltk.tokenize import word_tokenize
 from nltk.stem.wordnet import WordNetLemmatizer
+from sklearn.metrics import silhouette_samples, silhouette_score
+
 import string
 nltk.download('punkt')
 from functions import tokenize, tidy_up
@@ -87,6 +89,8 @@ re =[125.46974230764488,125.46974231397594,125.46974228293287,125.46974231359194
 111.04753081173351,103.50973482444792,89.34899301698549]
 features [6000,5500,5000,4500,4000,3500,3000,2500,2000,1500,1000,500]
 
+
+#beta
 def get_errors(comps):
     errorlist = []
     for i in comps:
@@ -102,3 +106,23 @@ def get_errors(comps):
         nmf.inverse_transform(W)
         errorlist.append(nmf.reconstruction_err_)
     return errorlist
+
+#to tune max_features hyperparameter
+def get_errors(list_):
+    errorlist = []
+    for i in list_:
+        the_one = max(i,4186)
+        vectorizer = CountVectorizer(strip_accents='unicode', tokenizer= word_tokenize, stop_words=text.ENGLISH_STOP_WORDS.union(to_filter), analyzer = 'word', max_features= i)
+        X = vectorizer.fit_transform(content)
+        V = X.toarray()
+        features = vectorizer.get_feature_names()
+        W = np.random.rand(data.shape[0],10)
+        H = np.zeros((10,the_one)) 
+        nmf = NMF(n_components=10)
+        W =nmf.fit_transform(V)
+        H = nmf.components_
+        nmf.inverse_transform(W)
+        errorlist.append(nmf.reconstruction_err_)
+        print('*')
+    return errorlist
+    #output is basically the same as from beta version ‾\_(ツ)_/‾ 

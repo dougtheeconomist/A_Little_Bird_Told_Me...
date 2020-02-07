@@ -14,3 +14,12 @@ The basic look at the data brings up several questions. First, what to do with r
 I first address the second question as it is easier to do. The obvious way to handle these tweets is simply to collect the tweet in its entirety and use this to replace the partial tweet within the data. Since there are 589 incomplete tweets within the dataframe, the most efficient method of accessing all of these tweet is web scraping. This automates the process of accessing the provided urls and extracting the data from them into a database, from which the body of the tweets can be extracted into a list. I then replace the original partial tweets with the tweets from this list to form a more complete picture from which to draw insights. 
 
 The next question to address is that of the 39% of the tweets within the data that are actually retweets of other tweets within the dataset. 
+
+# Analysis
+
+The first major exploration that I make of the collection is topic modeling. Essentially I group the tweets into categories using non-negative matrix factorization and examine the most frequently occurring words in each category to get a sense of the topic of discussion that this category represents. The following sub-section will delve into the details of how I specify my model to achieve my output, but for the reader who is more interested in the actual results of this modeling than the under-the-hood mechanics of it, this sub-section may be safely skipped over. 
+
+## Model Specification
+In building my nmf model, I first create my bag of words, or a listing of all of the words used in any of the tweets. I then filter out English stop words, or words that are commonly used like “a” or “the”, as well as punctuation characters and the hashtag used to find the tweets; “cni19f”. I then perform vectorization on the remaining words across the body of the tweets using the tf-idf method to obtain my word matrix. Once vectorized I perform nmf upon this matrix to converge onto the groupings of words that best fit the data. Once this is done, I convert vectors back into words to get categorized word groupings which from which topicality can be gleaned. 
+
+# Word groupings 
