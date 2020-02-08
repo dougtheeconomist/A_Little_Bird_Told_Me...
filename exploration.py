@@ -179,3 +179,13 @@ for i in range(0,653):
 for i in range(653):
 print('{}, {}rts'.format(handles_[i],n_rts[i]))
 #cni is number 410 with 25 retweets
+
+#seperating date from time information
+df['date'] = None
+df['time'] = None
+
+for i in range(0,2037):
+    df.date[i] = df.uts[i][0:10]
+    df.time[i] = df.uts[i][10:-1]
+    if i%100 ==0:
+        print(i)

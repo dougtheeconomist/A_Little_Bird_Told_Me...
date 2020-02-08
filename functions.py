@@ -13,15 +13,17 @@ def tokenize(doc):
     '''
     return [wordnet.lemmatize(word) for word in word_tokenize(doc.lower()) if word.isalpha()]
 
+'''~~~~~~~~~~~~~~~~~~~~~~analysis_prep_function~~~~~~~~~~~~~~~~~~~~~~'''
+
 def tidy_up(df):
     '''to drop columns, rows that aren't needed or that contain non'relevant data'''
     df.drop('Profile Image', inplace=True, axis = 1)
     df.drop('Time Zone', inplace=True, axis = 1)
     df.drop('Geo', inplace=True, axis = 1)
+    df.drop('Local Time Stamp', inplace=True, axis = 1)
     #after looking at a random sample of the media column, have concluded not important
     df.drop('Media', inplace=True, axis = 1)
-    df.rename(columns={'Universal Time Stamp': 'univ_ts', 
-                    'Local Time Stamp': 'local_ts',
+    df.rename(columns={'Universal Time Stamp': 'uts', 
                     'User Mentions': 'user_mentions',
                     'Follower Count': 'follower_count',
                     'User Name': 'username'}, inplace=True)
@@ -59,6 +61,8 @@ def tidy_up(df):
 
     for i in dropset:
         df.drop(axis=0, index=i, inplace=True)
+
+'''~~~~~~~~~~~~~~~~~~~~~~~~end_prep_function~~~~~~~~~~~~~~~~~~~~~~~~'''
 
 #From the internet; finding topwords in categories from nmf
 
@@ -111,6 +115,18 @@ def cutter(tweet):
             continue
     out = tweet[4:]
     return out
+
+
+def phrase_counter(column,phrase):
+    '''Returns the count of rows that contain the string denoted as 
+    phrase found within the specified column of data
+    '''
+    count = 0
+    for i in range(0,len(column)):
+        if phrase in column[i]:
+            count += 1
+    return count
+
 #from assignment
 
 def hand_label_topics(H, vocabulary):
@@ -142,14 +158,5 @@ def analyze_text(tweet_index, contents, W, hand_labels):
         print('--> {:.2f}% {}'.format(prob * 100, label))
     print()
 
-def phrase_counter(column,phrase):
-    '''Returns the count of rows that contain the string denoted as 
-    phrase found within the specified column of data
-    '''
-    count = 0
-    for i in range(0,len(column)):
-        if phrase in column[i]:
-            count += 1
-    return count
 
 
