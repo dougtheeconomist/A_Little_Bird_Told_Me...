@@ -99,6 +99,20 @@ def run_it(data, feat, groups):
     print('reconstruction error:', nmf.reconstruction_err_)
     return V, H, W
 
+def cutter(tweet):
+    '''to cut origin handle out of retweets
+    to match retweet to origin'''
+    marker = None
+    for i in range(0, len(tweet)):
+        if tweet[i] ==':':
+            marker = i
+            break
+        else:
+            continue
+    out = tweet[4:]
+    return out
+#from assignment
+
 def hand_label_topics(H, vocabulary):
     '''
     Print the most influential words of each latent topic, and prompt the user
@@ -115,15 +129,27 @@ def hand_label_topics(H, vocabulary):
         print()
     return hand_labels
 
-def cutter(tweet):
-    '''to cut origin handle out of retweets
-    to match retweet to origin'''
-    marker = None
-    for i in range(0, len(tweet)):
-        if tweet[i] ==':':
-            marker = i
-            break
-        else:
-            continue
-    out = tweet[4:]
-    return out
+def analyze_text(tweet_index, contents, W, hand_labels):
+    '''
+    Print an analysis of a single NYT articles, including the article text
+    and a summary of which topics it represents. The topics are identified
+    via the hand-labels which were assigned by the user.
+    '''
+    print(tweet_index)
+    print(contents[article_index])
+    probs = softmax(W[tweet_index], temperature=0.01)
+    for prob, label in zip(probs, hand_labels):
+        print('--> {:.2f}% {}'.format(prob * 100, label))
+    print()
+
+def phrase_counter(column,phrase):
+    '''Returns the count of rows that contain the string denoted as 
+    phrase found within the specified column of data
+    '''
+    count = 0
+    for i in range(0,len(column)):
+        if phrase in column[i]:
+            count += 1
+    return count
+
+
