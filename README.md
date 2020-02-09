@@ -40,11 +40,11 @@ In building my nmf model, I first create my bag of words, or a listing of all of
 
 In order to assess how many topics to categorize into, I run my model assuming several different numbers and view the 20 top scoring words in each category and make a judgement call from here based on how many of these categories seem cohesive vs a random jumble of words; it is my initial intention to default to ten categories, but when I do this several of them don’t make sense, leaving seven somewhat cohesive on-topic categories and one category that is obviously spam hashtags. When I narrow down to five categories I get a fairly clear sense of what they are about, and without the inclusion of a spam category 
 5 Topics:
-•	Digital preservation
-•	Barriers to conference attendance and livestreaming
-•	Quantum computing’s threat to data encryption
-•	Data science, libraries and the need for diversity
-•	Scholarly research and professional researchers
+	Digital preservation
+	Barriers to conference attendance and livestreaming
+	Quantum computing’s threat to data encryption
+	Data science, libraries and the need for diversity
+	Scholarly research and professional researchers
 
 
 
