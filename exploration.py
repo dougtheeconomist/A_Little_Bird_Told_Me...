@@ -163,12 +163,14 @@ for i in range(0,2037):
         cnilist.append(i)
 cnilist
 
-
+#finding number of unique tweeters within data
 handles = set(df.username)
 len(handles)  #653
 handles_ = [item for item in handles]
 len(handles_)
 n_rts = []
+#finding average number of followers
+df.groupby('username').mean().follower_count.mean()
 
 for i in range(0,653):
     count = 0
@@ -189,3 +191,65 @@ for i in range(0,2037):
     df.time[i] = df.uts[i][10:-1]
     if i%100 ==0:
         print(i)
+
+#top words of whole doc, I believe 
+'''
+{'Topic # 01': ['lynch',
+  'cliff',
+  'science',
+  'data',
+  '?',
+  'computing',
+  'research',
+  'quantum',
+  'need',
+  'today',
+  'encrypted',
+  'archiving',
+  'flows',
+  'encryption',
+  'internet',
+  'right',
+  'notes',
+  'agencies/institutions',
+  'decrypt',
+  'fiction']}
+  '''
+  
+  #finding connections via mentions
+new = [item for item in df.user_mentions]
+ilist = [num for num in range(0,2037)]
+ilist.reverse()
+for i in ilist:
+    if type(new[i]) == float:
+        new.pop(i)
+len(new)  #1498
+mention = []
+for i in range(0, 1498):
+    for j in new[i].split(' '):
+        mention.append(j)
+len(mention)  #2158 number of different mentions
+mentions = set(mention)
+len(mentions) #224 number of twitter users mentioned
+mlist = list(mentions)
+
+mcount = [0 for num in range(0, 653)]
+handle = list(handles)
+for i in range(0, 653):
+    for j in range(0, len(mention)):
+        if handle[i] == mention[j]:
+            mcount[i] += 1
+#total number of times user within data was mentioned
+sum(mcount)  #1864
+#average of these mentions per user
+sum(mcount) / 653  #2.9
+#to find out how many of these were cni, want to subtract those
+for i in range(0, 653):
+    if handle[i] == 'cni_org':
+        print(i)   #  410
+#also should subtract ThomasGPadilla, as this is likely spam
+print(mcount[410])  #113
+real_count = 1864 - 113 -223  # 1528
+#real answer is . . . 
+1528 / 651 = 2.4
+#This still rounds to 3

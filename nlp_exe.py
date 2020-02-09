@@ -168,3 +168,7 @@ hand_labels = hand_label_topics(H, vocabulary)
 
 for i in rand_articles:
     analyze_article(i, contents, web_urls, W, hand_labels)
+
+
+#After final model and hand labels applied
+classify_text(0,df.Text, W, labels)

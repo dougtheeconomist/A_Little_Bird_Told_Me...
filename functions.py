@@ -120,10 +120,14 @@ def cutter(tweet):
 def phrase_counter(column,phrase):
     '''Returns the count of rows that contain the string denoted as 
     phrase found within the specified column of data
+
+    column: iterable, column from dataframe or list
+
+    phrase: string, as part of larger string in row of column
     '''
     count = 0
     for i in range(0,len(column)):
-        if phrase in column[i]:
+        if phrase in column[i].lower():
             count += 1
     return count
 
@@ -145,18 +149,18 @@ def hand_label_topics(H, vocabulary):
         print()
     return hand_labels
 
-def analyze_text(tweet_index, contents, W, hand_labels):
+def classify_text(tweet_index, contents, W, hand_labels):
     '''
     Print an analysis of a single NYT articles, including the article text
     and a summary of which topics it represents. The topics are identified
     via the hand-labels which were assigned by the user.
     '''
     print(tweet_index)
-    print(contents[article_index])
+    print(contents[tweet_index])
     probs = softmax(W[tweet_index], temperature=0.01)
     for prob, label in zip(probs, hand_labels):
         print('--> {:.2f}% {}'.format(prob * 100, label))
     print()
 
-
+analyze_text(0,df.Text, W, labels)
 
