@@ -42,32 +42,6 @@ data = df.Text
 content = data
 wordnet = WordNetLemmatizer()
 
-#V1
-vectorizer = CountVectorizer(tokenizer= tokenize, stop_words='english', max_features=5000)
-#V2
-vectorizer = CountVectorizer(strip_accents='unicode', tokenizer= tokenize, stop_words='english', analyzer = 'word', max_features=5000)
-#V3
-vectorizer = CountVectorizer(strip_accents='unicode', tokenizer= tokenize, stop_words=text.ENGLISH_STOP_WORDS.union(), analyzer = 'word', max_features=5000)
-#reconstruction error: 126.14881541284356
-
-#V4 2000 Less features, a couple more stop words
-vectorizer = CountVectorizer(strip_accents='unicode', tokenizer= word_tokenize, stop_words=text.ENGLISH_STOP_WORDS.union(to_filter), analyzer = 'word', max_features=3000)
-#reconstruction error: 121.3807190237805
-
-#V5 500 less feature, more stop words
-vectorizer = CountVectorizer(strip_accents='unicode', tokenizer= word_tokenize, stop_words=text.ENGLISH_STOP_WORDS.union(to_filter), analyzer = 'word', max_features=2500)
-#reconstruction error: 118.59462496974123
-
-#V6 cut down to 1000 max features
-vectorizer = CountVectorizer(strip_accents='unicode', tokenizer= word_tokenize, stop_words=text.ENGLISH_STOP_WORDS.union(to_filter), analyzer = 'word', max_features=1000)
-#reconstruction error: 103.50973482444792
-
-#V7 with just 500 features, getting scary
-#re: 89.34899301698549
-
-#V8 1250 features, or one per observation
-#reconstruction error: 107.62346022537453
-
 X = vectorizer.fit_transform(content)
 V = X.toarray()
 features = vectorizer.get_feature_names()
@@ -93,7 +67,7 @@ for i in range(10):
         row.append(features[topwords[i][j]])
     words2.append(row)
 words2
-#this is my first carbage model. It tells me that I need to add more stopword
+#this is my first garbage model. It tells me that I need to add more stopword
 #as there are still a lot of punctuation/grammer words making it in. 
 
 re =[125.46974230764488,125.46974231397594,125.46974228293287,125.46974231359194,
@@ -134,27 +108,38 @@ def get_errors(list_):
         W =nmf.fit_transform(V)
         H = nmf.components_
         nmf.inverse_transform(W)
+        proportion =1- (np.count_nonzero(W)/W.size)
+        proplist.append(proportion)
         errorlist.append(nmf.reconstruction_err_)
         print('*')
     return errorlist
     #output is basically the same as from beta version ‾\_(ツ)_/‾ 
 
 '''~~~~~~~~~~~~~~~~~~~~~~~~~Moving forward for now~~~~~~~~~~~~~~~~~~~~~~~~~'''
-#WITH 2000 max features, 10 categories
+#WITH 2000 max features, 5 categories
 vectorizer = TfidfVectorizer(tokenizer= word_tokenize, stop_words=text.ENGLISH_STOP_WORDS.union(to_filter),max_features=2000, strip_accents='unicode', analyzer = 'word')
 X = vectorizer.fit_transform(content)
 V = X.toarray()
 features = vectorizer.get_feature_names()
-W = np.random.rand(data.shape[0],10)
-H = np.zeros((10,2000)) 
+W = np.random.rand(data.shape[0],5)
+H = np.zeros((5,2000)) 
 V.shape  # (1128, 2000)
-nmf = NMF(n_components=10)
+nmf = NMF(n_components=5)
 W =nmf.fit_transform(V)
 H = nmf.components_
 nmf.inverse_transform(W)
 print('reconstruction error:', nmf.reconstruction_err_)
-#reconstruction error: 31.829236010766092
+#reconstruction error: 32.450515841580675
+# proportion: 0.4136888888888889
+# overlap: 2.4
 
+
+#utilizing hand_lebel_topics function:
+my_topic_labels = ['Digital preservation',
+ 'Barriers to attendance livestreaming',
+ 'Quantum computings threat to encryption',
+ 'Data_science, libraries and diversity problem',
+ 'Training successful scholarly researchers']
 #Examples of hand labeler:
 #1
 hand_labels = hand_label_topics(H, vocabulary)

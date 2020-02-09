@@ -3,6 +3,7 @@
 #Date Created: 2/6/2020
 #Last Updated: 2/8/2020
 
+import numpy as np
 
 def tokenize(doc):
     '''
@@ -134,6 +135,7 @@ def phrase_counter(column,phrase):
 #from assignment
 
 def hand_label_topics(H, vocabulary):
+    import numpy as np
     '''
     Print the most influential words of each latent topic, and prompt the user
     to label each topic. The user should use their humanness to figure out what
@@ -149,9 +151,19 @@ def hand_label_topics(H, vocabulary):
         print()
     return hand_labels
 
+def softmax(v, temperature=1.0):
+    import numpy as np
+    '''
+    A heuristic to convert arbitrary positive values into probabilities.
+    See: https://en.wikipedia.org/wiki/Softmax_function
+    '''
+    expv = np.exp(v / temperature)
+    s = np.sum(expv)
+    return expv / s
+
 def classify_text(tweet_index, contents, W, hand_labels):
     '''
-    Print an analysis of a single NYT articles, including the article text
+    Print an analysis of a tweet, including the body of the tweet
     and a summary of which topics it represents. The topics are identified
     via the hand-labels which were assigned by the user.
     '''
@@ -162,5 +174,22 @@ def classify_text(tweet_index, contents, W, hand_labels):
         print('--> {:.2f}% {}'.format(prob * 100, label))
     print()
 
-analyze_text(0,df.Text, W, labels)
+# classify_text(0,df.Text, W, labels)
 
+def assign_categories(W, df):
+    df['digital_preservation'] = 0
+    df['conference_attendance_barriers'] = 0
+    df['qc_encryption'] = 0
+    df['ds_library_diversity'] = 0
+    df['training_researchers'] = 0
+    for i in df.index:
+        prob = (softmax(W[i], temperature=0.01))*100
+        df.digital_preservation[i] = prob[0]
+        df.conference_attendance_barriers = prob[1]
+        df.qc_encryption = prob[2]
+        df.ds_library_diversity = prob[3]
+        df.training_researchers = prob[4]
+    
+    return (df['digital_preservation'], df['conference_attendance_barriers'], 
+    df['qc_encryption'], df['ds_library_diversity'],df['training_researchers']
+    )
