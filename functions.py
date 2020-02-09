@@ -177,19 +177,28 @@ def classify_text(tweet_index, contents, W, hand_labels):
 # classify_text(0,df.Text, W, labels)
 
 def assign_categories(W, df):
+    df.reset_index(inplace=True)
+    df.rename(columns={'index': 'or_index'}, inplace=True)
     df['digital_preservation'] = 0
     df['conference_attendance_barriers'] = 0
     df['qc_encryption'] = 0
     df['ds_library_diversity'] = 0
     df['training_researchers'] = 0
     for i in df.index:
-        prob = (softmax(W[i], temperature=0.01))*100
-        df.digital_preservation[i] = prob[0]
-        df.conference_attendance_barriers = prob[1]
-        df.qc_encryption = prob[2]
-        df.ds_library_diversity = prob[3]
-        df.training_researchers = prob[4]
+        prob = (softmax(W[i], temperature=0.01))
+        df.digital_preservation[i] = prob[0]*100
+        df.conference_attendance_barriers[i] = prob[1]*100
+        df.qc_encryption[i] = prob[2]*100
+        df.ds_library_diversity[i] = prob[3]*100
+        df.training_researchers[i] = prob[4]*100
     
     return (df['digital_preservation'], df['conference_attendance_barriers'], 
     df['qc_encryption'], df['ds_library_diversity'],df['training_researchers']
     )
+
+def prob_counter(column,threshold):
+    count = 0
+    for i in df.index:
+        if column[i] >= threshold:
+            count += 1
+    return count

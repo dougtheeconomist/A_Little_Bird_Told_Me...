@@ -157,3 +157,83 @@ for i in rand_articles:
 
 #After final model and hand labels applied
 classify_text(0,df.Text, W, labels)
+
+assign_categories(W, df)
+#finding breakdown of categories
+prob_counter(df.digital_preservation,10)
+prob_counter(df.conference_attendance_barriers,10)
+prob_counter(df.qc_encryption,10)
+prob_counter(df.ds_library_diversity,10)
+prob_counter(df.training_researchers,10)
+560+181+148+534+462 #=1885
+#dividing to get percentage of tweets in each category
+# 29.71%
+# 9.6%
+# 7.85%
+# 28.33%
+# 24.51%
+#adds up to 99.95%
+
+#now averaging with figures found by just looking at highest % 
+#for each row
+count1 = 0
+count2 = 0
+count3 = 0
+count4 = 0
+count5 = 0
+for i in df.index:
+    b = max(df.digital_preservation[i],df.conference_attendance_barriers[i],df.qc_encryption[i],df.ds_library_diversity[i],df.training_researchers[i])
+    if df.digital_preservation[i] == b:
+        count1 +=1
+    if df.conference_attendance_barriers[i] == b:
+        count2 +=1
+    if df.qc_encryption[i] == b:
+        count3 +=1
+    if df.ds_library_diversity[i] ==b:
+        count4 +=1
+    if df.training_researchers[i] ==b:
+        count5 +=1
+#comes to 102.48%, becuase of ties
+
+
+(0.29708222811671087+0.3502222222222222) / 2  #= 32.37%
+(0.0960212201591512+0.064) / 2 #=8%
+(0.07851458885941645+0.03911111111111111) / 2  #= 5.88%
+(0.28328912466843503+0.3031111111111111) / 2  #= 29.32%
+(0.24509283819628647+0.26844444444444443) / 2  #= 25.68%
+#adds up to 101.24%
+
+
+
+#Graphing histograms of categories
+fig, axs=plt.subplots(2,3, figsize = (15, 10))
+ax = axs[0,0]
+dp=ax.hist(df.digital_preservation)
+ax.set_xlabel('Probabilities',fontsize = 18)
+ax.set_ylabel('tweets',fontsize = 18)
+ax.set_title('Digital Preservation',fontsize = 22, pad = 8)
+
+ax = axs[0,1]
+cab=ax.hist(df.conference_attendance_barriers)
+ax.set_xlabel('Probabilities',fontsize = 18)
+ax.set_ylabel('tweets',fontsize = 18)
+ax.set_title('Conference Attendance',fontsize = 22, pad = 8)
+
+ax = axs[1,0]
+qc=ax.hist(df.qc_encryption)
+ax.set_xlabel('Probabilities',fontsize = 18)
+ax.set_ylabel('tweets',fontsize = 18)
+ax.set_title('QC & Encryption',fontsize = 22, pad = 8)
+
+ax = axs[1,1]
+div=ax.hist(df.ds_library_diversity)
+ax.set_xlabel('Probabilities',fontsize = 18)
+ax.set_ylabel('tweets',fontsize = 18)
+ax.set_title('DS, Libraries, & Diversity',fontsize = 22, pad = 8)
+
+ax = axs[1,2]
+tr=ax.hist(df.training_researchers)
+ax.set_xlabel('Probabilities',fontsize = 18)
+ax.set_ylabel('tweets',fontsize = 18)
+ax.set_title('Training Researchers',fontsize = 22, pad = 8)
+plt.tight_layout()
