@@ -1,4 +1,4 @@
-# Fall_19_CNI_Member_conference_tweets
+# A_Little_Bird_Told_Me...
 Natural language processing analysis of fall membership conference tweets for CNI
 
 # Introduction
