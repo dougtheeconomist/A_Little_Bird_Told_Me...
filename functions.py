@@ -202,3 +202,19 @@ def prob_counter(column,threshold):
         if column[i] >= threshold:
             count += 1
     return count
+
+#from the net
+def get_sentiment(tweet): 
+        ''' 
+        Utility function to classify sentiment of passed tweet 
+        using textblob's sentiment method 
+        '''
+        # create TextBlob object of passed tweet text 
+        analysis = TextBlob(tweet) 
+        # set sentiment 
+        if analysis.sentiment.polarity > 0: 
+            return 'positive'
+        elif analysis.sentiment.polarity == 0: 
+            return 'neutral'
+        else: 
+            return 'negative'

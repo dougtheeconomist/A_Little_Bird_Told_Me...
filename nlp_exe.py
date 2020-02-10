@@ -8,14 +8,19 @@ from scipy.optimize import nnls
 from sklearn.decomposition import NMF
 from nltk.tokenize import word_tokenize
 from nltk.stem.wordnet import WordNetLemmatizer
-from sklearn.metrics import silhouette_samples, silhouette_score
+
+from textblob import TextBlob 
 
 import string
-nltk.download('punkt')
 from functions import tokenize, tidy_up, hand_label_topics
 import numpy as np
 import pandas as pd
 
+from functions import (tokenize, tidy_up, hand_label_topics,
+get_nmf_topics, phrase_counter, classify_text, softmax)
+from wordcloud import WordCloud, STOPWORDS 
+import matplotlib.pyplot as plt
+%matplotlib inline
 
 df = pd.read_pickle('mct.pkl', compression='zip')
 
@@ -237,3 +242,25 @@ ax.set_xlabel('Probabilities',fontsize = 18)
 ax.set_ylabel('tweets',fontsize = 18)
 ax.set_title('Training Researchers',fontsize = 22, pad = 8)
 plt.tight_layout()
+
+'''~~~~~~~~~~~~~~~~~~~~~~~Sentiment Analysis~~~~~~~~~~~~~~~~~~~~~~~'''
+
+df['positive'] = 0
+df['negative'] = 0
+
+for i in df.index:
+    if get_sentiment(df.Text[i]) == 'positive':
+        df.positive[i] = 1
+    if get_sentiment(df.Text[i]) == 'negative':
+        df.negative[i] = 1
+    if get_sentiment(df.Text[i]) == 'neutral':
+        df.neutral[i] = 1
+
+sum(df.positive)  #=573
+#50.9% positive
+sum(df.negative)  #=160
+#14.22% negative
+sum(df.neutral)  #=392
+#34.84% neutral
+
+#Now to repeat with retweets included

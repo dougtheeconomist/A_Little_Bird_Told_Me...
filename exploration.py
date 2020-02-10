@@ -253,3 +253,46 @@ real_count = 1864 - 113 -223  # 1528
 #real answer is . . . 
 1528 / 651 = 2.4
 #This still rounds to 3
+
+#dealing with location data
+#weeding out missing data
+cleaner_loc = []
+for i in df.index:
+    if type(df.Location[i]) == str:
+        cleaner_loc.append(re.findall(r'\w+', df.Location[i], re.IGNORECASE))
+    else:
+        pass
+#then narrowing down to just two words, 
+# anything else is probably a description or pun
+countlist = [num for num in range(0, 907)]
+countlist.reverse()
+
+for i in countlist:
+    if len(cleaner_loc[i]) != 2:
+        cleaner_loc.pop(i)
+len(cleaner_loc)  # = 409
+#then isolating states with state abreviation
+stateloc = []
+otherloc = []
+for i in range(0,409):
+    if len(cleaner_loc[i][1]) == 2:
+        stateloc.append(cleaner_loc[i])
+    else:
+        otherloc.append(cleaner_loc[i])
+len(otherloc)  # = 189
+len(stateloc)  # = 220
+#otherloc boils down to:
+otherloc2 = [['London', 'England'],
+ ['Vancouver', 'Canada'],
+ ['Dublin', 'Ireland'],
+ ['Delft', 'Nederland'],
+ ['Barcelona', 'Catalonia'],
+ ['Helsinki', 'Finland'],
+ ['Lausanne', 'Suisse'],
+ ['london', 'ontario'],
+ ['Sydney', 'Australia'],
+ ['Livingston', 'Scotland'],
+ ['Wien', 'Österreich'],
+ ['Cambridge', 'England'],
+ ['Vienna', 'Austria'],
+ ['Linz', 'Austria']]
