@@ -218,3 +218,34 @@ def get_sentiment(tweet):
             return 'neutral'
         else: 
             return 'negative'
+
+#to get lattidute, longitude data from city, state
+def getlatlon(statelisting):
+    lat = None
+    lon = None
+    ind = None
+    
+    if statelisting in citylist2:
+        ind= citylist2.index(statelisting)
+    else:
+        return None, None 
+    
+    lat = dfgeo.lat[ind]
+    lon = dfgeo.lng[ind]
+    return lat, lon
+
+#to generate plotly location graph, will need to edit
+def getgraph(lat, lon):
+    fig = go.Figure(data=go.Scattergeo(
+        lon = lon,
+        lat = lat
+#         text = Locations of UFO sightings,
+        mode = 'markers',
+        marker_color = 'greens',
+        ))
+
+    fig.update_layout(
+        title = 'Locations of Conference Attendees on Twitter',
+        geo_scope='usa',
+    )
+    fig.show()

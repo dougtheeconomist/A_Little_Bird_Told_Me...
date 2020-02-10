@@ -281,6 +281,10 @@ for i in range(0,409):
         otherloc.append(cleaner_loc[i])
 len(otherloc)  # = 189
 len(stateloc)  # = 220
+
+stateloc.append(['Toledo', 'OH'])
+stateloc.append(['Cleveland', 'OH'])
+
 #otherloc boils down to:
 otherloc2 = [['London', 'England'],
  ['Vancouver', 'Canada'],
@@ -296,3 +300,12 @@ otherloc2 = [['London', 'England'],
  ['Cambridge', 'England'],
  ['Vienna', 'Austria'],
  ['Linz', 'Austria']]
+
+ ulist = [['Columbia', 'University']]
+
+
+#to get city coordinate data
+dfgeo = pd.read_csv('uscities.csv')
+citylist2 = []
+for i in range(0, len(dfgeo.city)):
+    citylist2.append((dfgeo.city[i] + ', ' + dfgeo.state_id[i]))
