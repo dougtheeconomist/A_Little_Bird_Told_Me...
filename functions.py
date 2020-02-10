@@ -219,20 +219,6 @@ def get_sentiment(tweet):
         else: 
             return 'negative'
 
-#to get lattidute, longitude data from city, state
-def getlatlon(statelisting):
-    lat = None
-    lon = None
-    ind = None
-    
-    if statelisting in citylist2:
-        ind= citylist2.index(statelisting)
-    else:
-        return None, None 
-    
-    lat = dfgeo.lat[ind]
-    lon = dfgeo.lng[ind]
-    return lat, lon
 
 #to generate plotly location graph, will need to edit
 def getgraph(lat, lon):
