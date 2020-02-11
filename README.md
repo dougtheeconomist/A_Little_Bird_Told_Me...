@@ -42,7 +42,7 @@ In building my nmf model, I first create my bag of words, or a listing of all of
 
 In order to assess the optimal number of topics to categorize the tweets into, I run my model assuming several different numbers and view the 20 top scoring words in each category and make a judgement call from here based on how many of these categories seem cohesive vs a random jumble of words; it is my initial intention to default to ten categories, but when I do this several of them don’t make sense, leaving seven somewhat cohesive on-topic categories and one category that is obviously spam hashtags. When I narrow down to five categories I get a fairly clear sense of what they are about from looking at the top words. In addition to this, when I generate a graph of the proportion of zeros that are within the fitted matrix W, I see that at five categories, the ratio of zeroes drops. A glance at the graph below will show that this is the only point where this is the case. This is significant because the more zeroes are present within this matrix, the more topic categories a given tweet will fall into on average. Around five categories is the only point where increasing the number of categories decreases how many topics the average tweet falls into. 
 
-![zeros_comparisson](/images/Proportion_ofzeros.png)
+![zeros_comparisson](/images/Proportion_of_zeros.png)
 
 5 Topics:
 	Digital preservation
@@ -55,4 +55,12 @@ The most influential words in creating these topics, which I used to label them 
 
 ![top_words_table](/images/top_words5.png)
 
-Now that I have identified topic categories, I can map the tweets into these categories to get a further sense of what is being discussed.  
+Now that I have identified topic categories, I can map the tweets into these categories to get a further sense of what is being discussed. In doing so I see that the most popular topics are digital preservation, followed by data science, libraries and the need for diversity, and then training successful researchers. The topics of quantum computing and the accessability of the conference itself are much more sparsely discussed, with less than ten percent of the overall tweets mentioning these topics. The actual breakdown of tweet fits can be seen in the following cluster of histograms. For a given chart below, each bar represent the number of tweets within the data that have that percentage of a match to the category. 
+
+![topic_fit_histograms](group_histograms.png)
+
+The next step in my study to the data is to conduct sentiment analysis, that is, to get a measure of whether or not a given tweet expresses positive, negative or neural sentiment. This is done by analyzing the wording used, counting words that are associated with the sentiment of “good”, vs the sentiment of “bad”. The drawback of this method of analyzing data is that it doesn’t take into account what is being expressed in the tweets as good or bad, so we can’t say if a tweet classified as positive likes the topic of a given presentation, the style it was presented in, or even the space in which the presentation was given. It can none-the-less provide an overall sense of how people feel about a general topic, or the conference as a whole. 
+
+First I look at the sentiment breakdown of the original tweets, then I expand this analysis to reflect the retweets as well. It is not only useful to know what sentiments people are tweeting, but which ones are other twitter users associate with enough to retweet. Within the original posters, I find that the sentiment is generally positive with 51% of original tweets scoring as having positive sentiment, as opposed to only 14% which are negative. The remaining 35% of tweets scored as sentiment neutral. 
+
+When I expand this analysis to the retweets, I see that (number)% of tweets are scored as positive.
