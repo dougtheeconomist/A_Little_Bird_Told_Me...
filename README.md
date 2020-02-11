@@ -1,6 +1,8 @@
 # A Little Bird Told Me...
 Natural language processing analysis of fall membership conference tweets for CNI
 
+![header_image](/images/potentialheader.png)
+
 # Introduction
 
 How do you evaluate the success of your organization’s periodic conference or trade event? Do you try to gage the engagement of your audience during the event through observation? This may be hard to do, and may not give you much information about what is working and what’s not. Do you send out a questionnaire to attendees after the fact? This requires thoughtful survey design, and attendees may not have the energy/time to respond until well after the conference ends, if at all, and details or topics that may be important won’t be as fresh in the mind. Why not survey as the conference goes on? This seems like a good balance, but it risks detracting from the event itself, thus detracting from the value that attendees receive from attendance, and if your goal in evaluation is to maximize what attendees get out of your event then you are putting the cart before the horse. 
@@ -38,7 +40,10 @@ In building my nmf model, I first create my bag of words, or a listing of all of
 
 # Topics
 
-In order to assess how many topics to categorize into, I run my model assuming several different numbers and view the 20 top scoring words in each category and make a judgement call from here based on how many of these categories seem cohesive vs a random jumble of words; it is my initial intention to default to ten categories, but when I do this several of them don’t make sense, leaving seven somewhat cohesive on-topic categories and one category that is obviously spam hashtags. When I narrow down to five categories I get a fairly clear sense of what they are about, and without the inclusion of a spam category 
+In order to assess the optimal number of topics to categorize the tweets into, I run my model assuming several different numbers and view the 20 top scoring words in each category and make a judgement call from here based on how many of these categories seem cohesive vs a random jumble of words; it is my initial intention to default to ten categories, but when I do this several of them don’t make sense, leaving seven somewhat cohesive on-topic categories and one category that is obviously spam hashtags. When I narrow down to five categories I get a fairly clear sense of what they are about from looking at the top words. In addition to this, when I generate a graph of the proportion of zeros that are within the fitted matrix W, I see that at five categories, the ratio of zeroes drops. A glance at the graph below will show that this is the only point where this is the case. This is significant because the more zeroes are present within this matrix, the more topic categories a given tweet will fall into on average. Around five categories is the only point where increasing the number of categories decreases how many topics the average tweet falls into. 
+
+![zeros_comparisson](/images/Proportion_ofzeros.png)
+
 5 Topics:
 	Digital preservation
 	Barriers to conference attendance and livestreaming
@@ -46,5 +51,8 @@ In order to assess how many topics to categorize into, I run my model assuming s
 	Data science, libraries and the need for diversity
 	Scholarly research and professional researchers
 
+The most influential words in creating these topics, which I used to label them can be seen below. 
 
+![top_words_table](/images/top_words5.png)
 
+Now that I have identified topic categories, I can map the tweets into these categories to get a further sense of what is being discussed.  
