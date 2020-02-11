@@ -1,9 +1,10 @@
 #Title: CNI analysis functions
 #Author: Doug Hart
 #Date Created: 2/6/2020
-#Last Updated: 2/8/2020
+#Last Updated: 2/10/2020
 
 import numpy as np
+import plotly.graph_objects as go
 
 def tokenize(doc):
     '''
@@ -221,17 +222,17 @@ def get_sentiment(tweet):
 
 
 #to generate plotly location graph, will need to edit
-def getgraph(lat, lon):
-    fig = go.Figure(data=go.Scattergeo(
-        lon = lon,
-        lat = lat
-#         text = Locations of UFO sightings,
-        mode = 'markers',
-        marker_color = 'greens',
-        ))
+# def getgraph(lat, lon):
+#     fig = go.Figure(data=go.Scattergeo(
+#         lon = lon,
+#         lat = lat
+# #         text = Locations of UFO sightings,
+#         mode = 'markers',
+#         marker_color = 'greens',
+#         ))
 
-    fig.update_layout(
-        title = 'Locations of Conference Attendees on Twitter',
-        geo_scope='usa',
-    )
-    fig.show()
+#     fig.update_layout(
+#         title = 'Locations of Conference Attendees on Twitter',
+#         geo_scope='usa',
+#     )
+#     fig.show()

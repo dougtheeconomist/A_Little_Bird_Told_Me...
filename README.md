@@ -63,4 +63,6 @@ The next step in my study to the data is to conduct sentiment analysis, that is,
 
 First I look at the sentiment breakdown of the original tweets, then I expand this analysis to reflect the retweets as well. It is not only useful to know what sentiments people are tweeting, but which ones are other twitter users associate with enough to retweet. Within the original posters, I find that the sentiment is generally positive with 51% of original tweets scoring as having positive sentiment, as opposed to only 14% which are negative. The remaining 35% of tweets scored as sentiment neutral. 
 
-When I expand this analysis to the retweets, I see that (number)% of tweets are scored as positive.
+When I expand this analysis to include the 664 retweets not ruled out as spam, there isn't a significant change in sentiment. 50% of tweets are scored as positive, 15% as negative and 34% are neutral.
+
+Finally I put it all together and look at sentiments of the subgroupings of tweets within each of the five categories that my topic modeling model uncovered. 

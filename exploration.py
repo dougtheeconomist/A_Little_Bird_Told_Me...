@@ -1,7 +1,7 @@
 #Title: CNI on twitter eda/cleaning
 #Author: Doug Hart
 #Date Created: 2/3/2020
-#Last Updated: 2/8/2020
+#Last Updated: 2/10/2020
 
 import numpy as np
 import pandas as pd

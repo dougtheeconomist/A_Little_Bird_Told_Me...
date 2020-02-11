@@ -1,7 +1,7 @@
 #Title: all-a-twitter_cni_member_conference
 #Author: Doug Hart
 #Date Created: 2/5/2020
-#Last Updated: 2/8/2020
+#Last Updated: 2/10/2020
 from sklearn.feature_extraction import text
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from scipy.optimize import nnls
@@ -247,6 +247,7 @@ plt.tight_layout()
 
 df['positive'] = 0
 df['negative'] = 0
+df['neutral'] = 0
 
 for i in df.index:
     if get_sentiment(df.Text[i]) == 'positive':
@@ -263,5 +264,22 @@ sum(df.negative)  #=160
 sum(df.neutral)  #=392
 #34.84% neutral
 
-#Now to repeat with retweets included
+#creating column of polarities, may contain some None values still
+df['sentiment_polarity'] = None
+for i in df.index:
+    analysis = TextBlob(df.Text[i])
+    df.sentiment_polarity[i] = analysis.sentiment.polarity
 
+np.mean(df.sentiment_polarity)  # = 0.1124532
+#max is 1, min is -1
+
+
+#Now to repeat with retweets included
+np.mean(df.sentiment_polarity)  # = .10398576
+
+um(df.positive)  #=902
+#50.42% positive
+sum(df.negative)  #=271
+#15.15% negative
+sum(df.neutral)  #=616
+#34.43% neutral
