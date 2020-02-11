@@ -57,7 +57,7 @@ The most influential words in creating these topics, which I used to label them 
 
 Now that I have identified topic categories, I can map the tweets into these categories to get a further sense of what is being discussed. In doing so I see that the most popular topics are digital preservation, followed by data science, libraries and the need for diversity, and then training successful researchers. The topics of quantum computing and the accessability of the conference itself are much more sparsely discussed, with less than ten percent of the overall tweets mentioning these topics. The actual breakdown of tweet fits can be seen in the following cluster of histograms. For a given chart below, each bar represent the number of tweets within the data that have that percentage of a match to the category. 
 
-![topic_fit_histograms](/images/topic_matches_histogram)
+![topic_fit_histograms](/images/topic_matches_histogram.png)
 
 The next step in my study to the data is to conduct sentiment analysis, that is, to get a measure of whether or not a given tweet expresses positive, negative or neural sentiment. This is done by analyzing the wording used, counting words that are associated with the sentiment of “good”, vs the sentiment of “bad”. The drawback of this method of analyzing data is that it doesn’t take into account what is being expressed in the tweets as good or bad, so we can’t say if a tweet classified as positive likes the topic of a given presentation, the style it was presented in, or even the space in which the presentation was given. It can none-the-less provide an overall sense of how people feel about a general topic, or the conference as a whole. 
 
