@@ -1,7 +1,7 @@
 #Title: all-a-twitter_cni_member_conference
 #Author: Doug Hart
 #Date Created: 2/5/2020
-#Last Updated: 2/10/2020
+#Last Updated: 2/11/2020
 from sklearn.feature_extraction import text
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from scipy.optimize import nnls
@@ -283,3 +283,52 @@ sum(df.negative)  #=271
 #15.15% negative
 sum(df.neutral)  #=616
 #34.43% neutral
+
+finding sentiment mean for just negatives
+scount =0
+for i in df.index:
+    if df.negative[i]:
+        scount += df.sentiment_polarity[i]
+scount / 160
+'''~~~~~~~~~~combining sentiment with topic modeling results~~~~~~~~~~'''
+
+df['topicnum'] = 0
+for i in df.index:
+    b = max(df.digital_preservation[i],df.conference_attendance_barriers[i],df.qc_encryption[i],df.ds_library_diversity[i],df.training_researchers[i])
+    if df.digital_preservation[i] == b:
+        df.topicnum[i] =1
+    if df.conference_attendance_barriers[i] == b:
+        df.topicnum[i] =2
+    if df.qc_encryption[i] == b:
+        df.topicnum[i] =3
+    if df.ds_library_diversity[i] ==b:
+        df.topicnum[i] =4
+    if df.training_researchers[i] ==b:
+        df.topicnum[i] =5
+
+df.groupby('topicnum').sum()
+
+#cat1
+# positive 199, 51.55%
+# negative 43, 11.14%
+# neutral 144, 37.31%
+
+#cat2
+# positive 27, 41.54%
+# negative 16, 24.62%
+# neutral 22, 33.85%
+
+#cat3
+# positive 33, 86.84%
+# negative 2, 5.26%
+# neutral 3, 7.9%
+
+#cat4
+# positive 192, 57.48%
+# negative 47, 14.07%
+# neutral 95, 28.44%
+
+#cat5
+# positive 122, 40.4%
+# negative 52, 17.22%
+# neutral 128, 42.38%
