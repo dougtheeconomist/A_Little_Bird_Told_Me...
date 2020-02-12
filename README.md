@@ -51,7 +51,7 @@ The most influential words in creating these groupings, which I used to label th
 
 Looking at these word groupings, here are the topic labels that I settled on:
 5 Topics:
-Digital preservation                                                            
+Digital preservation                                                     
 Barriers to conference attendance and livestreaming
 Quantum computing’s threat to data encryption
 Data science, libraries and the need for diversity
@@ -69,3 +69,11 @@ First I look at the sentiment breakdown of the original tweets, then I expand th
 When I expand this analysis to include the 664 retweets not ruled out as spam, there isn't a significant change in sentiment. 50% of tweets are scored as positive, 15% as negative and 34% are neutral.
 
 Finally I put it all together and look at sentiments of the subgroupings of tweets within each of the five categories that my topic modeling model uncovered.
+
+|Topics			               | number of tweets | Positive% | Negative% | Neutral% |
+|------------------------------|:-----------------|:----------|:----------|:---------|
+| Digital preservation  	   | 386 		      | 51.6      | 11.1      |  37.3    |
+| conference attendance	       | 65  		      | 41.5      | 24.6      | 33.9     |
+| Quantum computing	           | 38  		      | 86.8      | 5.3       | 7.9      |
+| Diversity in DS and libraries| 334  		      | 57.5      |14.1       | 28.4     |
+|Training researchers          | 302  		      | 40.4      |17.2       | 42.4     |
