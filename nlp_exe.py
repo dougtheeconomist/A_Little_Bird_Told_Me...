@@ -1,7 +1,7 @@
 #Title: all-a-twitter_cni_member_conference
 #Author: Doug Hart
 #Date Created: 2/5/2020
-#Last Updated: 2/11/2020
+#Last Updated: 2/12/2020
 from sklearn.feature_extraction import text
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from scipy.optimize import nnls

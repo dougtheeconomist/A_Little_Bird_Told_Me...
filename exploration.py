@@ -192,30 +192,7 @@ for i in range(0,2037):
     if i%100 ==0:
         print(i)
 
-#top words of whole doc, I believe 
-'''
-{'Topic # 01': ['lynch',
-  'cliff',
-  'science',
-  'data',
-  '?',
-  'computing',
-  'research',
-  'quantum',
-  'need',
-  'today',
-  'encrypted',
-  'archiving',
-  'flows',
-  'encryption',
-  'internet',
-  'right',
-  'notes',
-  'agencies/institutions',
-  'decrypt',
-  'fiction']}
-  '''
-  
+
   #finding connections via mentions
 new = [item for item in df.user_mentions]
 ilist = [num for num in range(0,2037)]
