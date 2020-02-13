@@ -51,14 +51,15 @@ The most influential words in creating these groupings, which I used to label th
 
 Looking at these word groupings, here are the topic labels that I settled on:
 5 Topics:
-Digital preservation                                                     
+Digital preservation                                         
 Barriers to conference attendance and livestreaming
 Quantum computing’s threat to data encryption
 Data science, libraries and the need for diversity
-Scholarly research and professional researchers
+Scholarly research and training professional researchers
 
+When I fit the tweets into the categories that they best fit, 32.4% of tweets fall into the digital preservation category, 8% into barriers to attendance/livestreaming, 5.9% into Quantum computing, 29.3% into data science, libraries and diversity, and 25.7% into training professional researchers.
 
-Now that I have identified topic categories, I can map the tweets into these categories to get a further sense of what is being discussed. In doing so I see that the most popular topics are digital preservation, followed by data science, libraries and the need for diversity, and then training successful researchers. The topics of quantum computing and the accessability of the conference itself are much more sparsely discussed, with less than ten percent of the overall tweets mentioning these topics. The actual breakdown of tweet fits can be seen in the following cluster of histograms. For a given chart below, each bar represent the number of tweets within the data that have that percentage of a match to the category. 
+Now that I have identified topic categories, I can map the tweets into these categories to get a further sense of what is being discussed. When mapping to the categories that each tweet best fits, I see that the most popular topics are digital preservation with 32.4% of tweets, followed by data science, libraries and the need for diversity at  at 29.3%, and then training successful researchers at 25.7%. The topics of quantum computing and the accessability of the conference itself are much more sparsely discussed, with 8% and 5.9% of overall tweets falling into these categories. The actual breakdown of tweet fits can be seen in the following cluster of histograms. For a given chart below, each bar represent the number of tweets within the data that have that percentage of a match to the category. 
 
 ![topic_fit_histograms](/images/topic_matches_histogram.png)
 
@@ -70,10 +71,10 @@ When I expand this analysis to include the 664 retweets not ruled out as spam, t
 
 Finally I put it all together and look at sentiments of the subgroupings of tweets within each of the five categories that my topic modeling model uncovered.
 
-|Topics			               | number of tweets | Positive% | Negative% | Neutral% |
-|------------------------------|:-----------------|:----------|:----------|:---------|
-| Digital preservation  	   | 386 		      | 51.6      | 11.1      |  37.3    |
-| conference attendance	       | 65  		      | 41.5      | 24.6      | 33.9     |
-| Quantum computing	           | 38  		      | 86.8      | 5.3       | 7.9      |
-| Diversity in DS and libraries| 334  		      | 57.5      |14.1       | 28.4     |
-|Training researchers          | 302  		      | 40.4      |17.2       | 42.4     |
+    |Topics			               | number of tweets | Positive% | Negative% | Neutral% |
+    |------------------------------|:-----------------|:----------|:----------|:---------|
+    | Digital preservation  	   | 386 		      | 51.6      | 11.1      |  37.3    |
+    | conference attendance	       | 65  		      | 41.5      | 24.6      | 33.9     |
+    | Quantum computing	           | 38  		      | 86.8      | 5.3       | 7.9      |
+    | Diversity in DS and libraries| 334  		      | 57.5      |14.1       | 28.4     |
+    |Training researchers          | 302  		      | 40.4      |17.2       | 42.4     |
