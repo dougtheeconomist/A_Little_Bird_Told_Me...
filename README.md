@@ -71,10 +71,10 @@ When I expand this analysis to include the 664 retweets not ruled out as spam, t
 
 Finally I put it all together and look at sentiments of the subgroupings of tweets within each of the five categories that my topic modeling model uncovered.
 
-    |Topics			               | number of tweets | Positive% | Negative% | Neutral% |
-    |------------------------------|:-----------------|:----------|:----------|:---------|
-    | Digital preservation  	   | 386 		      | 51.6      | 11.1      |  37.3    |
-    | conference attendance	       | 65  		      | 41.5      | 24.6      | 33.9     |
-    | Quantum computing	           | 38  		      | 86.8      | 5.3       | 7.9      |
-    | Diversity in DS and libraries| 334  		      | 57.5      |14.1       | 28.4     |
-    |Training researchers          | 302  		      | 40.4      |17.2       | 42.4     |
+|Topics			               | number of tweets | Positive% | Negative% | Neutral% |
+|------------------------------|:-----------------|:----------|:----------|:---------|
+| Digital preservation  	   | 386 		      | 51.6      | 11.1      |  37.3    |
+| conference attendance	       | 65  		      | 41.5      | 24.6      | 33.9     |
+| Quantum computing	           | 38  		      | 86.8      | 5.3       | 7.9      |
+| Diversity in DS and libraries| 334  		      | 57.5      |14.1       | 28.4     |
+|Training researchers          | 302  		      | 40.4      |17.2       | 42.4     |
