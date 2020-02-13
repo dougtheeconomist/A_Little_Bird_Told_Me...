@@ -166,6 +166,7 @@ cnilist
 #finding number of unique tweeters within data
 handles = set(df.username)
 len(handles)  #653
+#This number goes down to 214 with cleaned data
 handles_ = [item for item in handles]
 len(handles_)
 n_rts = []
@@ -186,7 +187,7 @@ print('{}, {}rts'.format(handles_[i],n_rts[i]))
 df['date'] = None
 df['time'] = None
 
-for i in range(0,2037):
+for i in df.index:
     df.date[i] = df.uts[i][0:10]
     df.time[i] = df.uts[i][10:-1]
     if i%100 ==0:
@@ -276,7 +277,8 @@ otherloc2 = [['London', 'England'],
  ['Wien', 'Österreich'],
  ['Cambridge', 'England'],
  ['Vienna', 'Austria'],
- ['Linz', 'Austria']]
+ ['Linz', 'Austria'],
+ ['Paris', 'France']]
 
  ulist = [['Columbia', 'University']]
 
