@@ -1,5 +1,5 @@
-#Title: CNI analysis functions
 #Author: Doug Hart
+#Title: CNI analysis functions
 #Date Created: 2/6/2020
 #Last Updated: 2/10/2020
 
@@ -8,6 +8,7 @@ import plotly.graph_objects as go
 
 def tokenize(doc):
     '''
+    For tokenize bag of words from corpus of documents for NLP analysis
     INPUT: string
     OUTPUT: list of strings
 
@@ -133,7 +134,7 @@ def phrase_counter(column,phrase):
             count += 1
     return count
 
-#from assignment
+#Borrowed and modified from assignment
 
 def hand_label_topics(H, vocabulary):
     import numpy as np
@@ -141,6 +142,8 @@ def hand_label_topics(H, vocabulary):
     Print the most influential words of each latent topic, and prompt the user
     to label each topic. The user should use their humanness to figure out what
     each latent topic is capturing.
+        H: H matrix reconstruction or nmf.components_
+        vocabulary: array feature names from vectorizer or np.array(vectorizer.get_feature_names())
     '''
     hand_labels = []
     for i, row in enumerate(H):
@@ -178,6 +181,10 @@ def classify_text(tweet_index, contents, W, hand_labels):
 # classify_text(0,df.Text, W, labels)
 
 def assign_categories(W, df):
+    '''
+    Having created categorical classifications, creates new 
+    DataFrame columns with measure of each tweet's fit for each category
+    '''
     df.reset_index(inplace=True)
     df.rename(columns={'index': 'or_index'}, inplace=True)
     df['digital_preservation'] = 0
@@ -198,6 +205,15 @@ def assign_categories(W, df):
     )
 
 def prob_counter(column,threshold):
+    '''
+    Used to return count of tweets within corpus that match into a
+    given topic
+    INPUTS: 
+        column: df column containing prob estimates for topic fit
+        threshold: cutoff probability for tweet to fall into category
+    OUTPUT: count of tweets with high enough categorical match to fall
+        into given category
+    '''
     count = 0
     for i in df.index:
         if column[i] >= threshold:
