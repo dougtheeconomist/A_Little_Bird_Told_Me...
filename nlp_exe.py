@@ -1,7 +1,7 @@
 #Title: all-a-twitter_cni_member_conference
 #Author: Doug Hart
 #Date Created: 2/5/2020
-#Last Updated: 2/12/2020
+#Last Updated: 3/17/2021
 from sklearn.feature_extraction import text
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from scipy.optimize import nnls
@@ -17,24 +17,15 @@ import numpy as np
 import pandas as pd
 
 from functions import (tokenize, tidy_up, hand_label_topics,
-get_nmf_topics, phrase_counter, classify_text, softmax)
+get_nmf_topics, phrase_counter, classify_text, softmax, cutter, 
+prob_counter, assign_categories, get_sentiment)
 from wordcloud import WordCloud, STOPWORDS 
 import matplotlib.pyplot as plt
-%matplotlib inline
+# If running in notebook, will need 
+# %matplotlib inline
 
 df = pd.read_pickle('mct.pkl', compression='zip')
 
-retwote = []
-for i in retweet_list:
-    retwote.append(cutter(i))
-len(retwote)
-df['retwote'] =0
-for i in range(0,2037):
-    count = 0
-    for j in range(0,786):
-        if df.username[i] == retwote[j]:
-            count += 1
-    df.retwote = count
 
 #should do data selection first. i.e. all rows, exclude RTs, etc.
 tidy_up(df)
@@ -46,6 +37,7 @@ to_filter = ['#', ':', '!','“', '”', 't', 's', '’',';','@','&','cni19f','`
 data = df.Text
 content = data
 wordnet = WordNetLemmatizer()
+vectorizer = TfidfVectorizer(tokenizer= word_tokenize, stop_words=text.ENGLISH_STOP_WORDS.union(to_filter),max_features=2000, strip_accents='unicode', analyzer = 'word')
 
 X = vectorizer.fit_transform(content)
 V = X.toarray()
@@ -53,9 +45,6 @@ features = vectorizer.get_feature_names()
 W = np.random.rand(data.shape[0],10)
 H = np.zeros((10,5000))   
 
-#To drop the columns with retweets 
-for i in indexlist:
-    df.drop(axis=0, index=i, inplace=True)
 
 nmf = NMF(n_components=10)
 W =nmf.fit_transform(V)
@@ -101,15 +90,15 @@ def get_errors(comps):
 #to tune max_features hyperparameter
 def get_errors(list_):
     errorlist = []
+    proplist = []
     for i in list_:
-        the_one = max(i,4186)
-        vectorizer = CountVectorizer(strip_accents='unicode', tokenizer= word_tokenize, stop_words=text.ENGLISH_STOP_WORDS.union(to_filter), analyzer = 'word', max_features= i)
+        vectorizer = TfidfVectorizer(tokenizer= word_tokenize, stop_words=text.ENGLISH_STOP_WORDS.union(to_filter),max_features=2000, strip_accents='unicode', analyzer = 'word')
         X = vectorizer.fit_transform(content)
         V = X.toarray()
         features = vectorizer.get_feature_names()
-        W = np.random.rand(data.shape[0],10)
-        H = np.zeros((10,the_one)) 
-        nmf = NMF(n_components=10)
+        W = np.random.rand(data.shape[0],i)
+        H = np.zeros((i,2000)) 
+        nmf = NMF(n_components=i)
         W =nmf.fit_transform(V)
         H = nmf.components_
         nmf.inverse_transform(W)
@@ -117,7 +106,7 @@ def get_errors(list_):
         proplist.append(proportion)
         errorlist.append(nmf.reconstruction_err_)
         print('*')
-    return errorlist
+    return errorlist, proplist
     #output is basically the same as from beta version ‾\_(ツ)_/‾ 
 
 '''~~~~~~~~~~~~~~~~~~~~~~~~~Moving forward for now~~~~~~~~~~~~~~~~~~~~~~~~~'''
@@ -150,14 +139,6 @@ my_topic_labels = ['Digital preservation',
 hand_labels = hand_label_topics(H, vocabulary)
 #then check with
 rand_articles = np.random.choice(range(len(W)), 15)
-
-for i in rand_articles:
-    analyze_article(i, contents, web_urls, W, hand_labels)
-#2
-hand_labels = hand_label_topics(H, vocabulary)
-
-for i in rand_articles:
-    analyze_article(i, contents, web_urls, W, hand_labels)
 
 
 #After final model and hand labels applied
@@ -277,14 +258,14 @@ np.mean(df.sentiment_polarity)  # = 0.1124532
 #Now to repeat with retweets included
 np.mean(df.sentiment_polarity)  # = .10398576
 
-um(df.positive)  #=902
+sum(df.positive)  #=902
 #50.42% positive
 sum(df.negative)  #=271
 #15.15% negative
 sum(df.neutral)  #=616
 #34.43% neutral
 
-finding sentiment mean for just negatives
+# finding sentiment mean for just negatives
 scount =0
 for i in df.index:
     if df.negative[i]:

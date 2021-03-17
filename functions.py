@@ -1,10 +1,21 @@
 #Author: Doug Hart
 #Title: CNI analysis functions
 #Date Created: 2/6/2020
-#Last Updated: 2/10/2020
+#Last Updated: 3/17/2021
 
 import numpy as np
+import pandas as pd
 import plotly.graph_objects as go
+
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.feature_extraction import text
+from scipy.optimize import nnls
+from sklearn.decomposition import NMF
+from nltk.tokenize import word_tokenize
+from nltk.stem.wordnet import WordNetLemmatizer
+import string
+import nltk
+from textblob import TextBlob 
 
 def tokenize(doc):
     '''
@@ -14,6 +25,7 @@ def tokenize(doc):
 
     Tokenize and stem/lemmatize the document.
     '''
+    wordnet = WordNetLemmatizer()
     return [wordnet.lemmatize(word) for word in word_tokenize(doc.lower()) if word.isalpha()]
 
 '''~~~~~~~~~~~~~~~~~~~~~~analysis_prep_function~~~~~~~~~~~~~~~~~~~~~~'''
@@ -72,6 +84,8 @@ def tidy_up(df):
 def get_nmf_topics(model, n_top_words=10, num_topics=10):
     
     #the word ids obtained need to be reverse-mapped to the words so we can print the topic names.
+    to_filter = ['#', ':', '!','“', '”', 't', 's', '’',';','@','&','cni19f','``','-','(', ')','.',"''",'...',',','*','%','--',"'",'https',"'s"]
+    vectorizer = TfidfVectorizer(tokenizer= word_tokenize, stop_words=text.ENGLISH_STOP_WORDS.union(to_filter),max_features=2000, strip_accents='unicode', analyzer = 'word')
     features = vectorizer.get_feature_names()
     
     word_dict = {}
@@ -92,7 +106,7 @@ def run_it(data, feat, groups):
     data_ = data
     content = data
     wordnet = WordNetLemmatizer()
-
+    to_filter = ['#', ':', '!','“', '”', 't', 's', '’',';','@','&','cni19f','``','-','(', ')','.',"''",'...',',','*','%','--',"'",'https',"'s"]
     vectorizer = CountVectorizer(strip_accents='unicode', tokenizer= word_tokenize, stop_words=text.ENGLISH_STOP_WORDS.union(to_filter), analyzer = 'word', max_features= feat)
     X = vectorizer.fit_transform(content)
     V = X.toarray()

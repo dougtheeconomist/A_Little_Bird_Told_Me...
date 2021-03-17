@@ -1,12 +1,13 @@
 #Title: CNI on twitter eda/cleaning
 #Author: Doug Hart
 #Date Created: 2/3/2020
-#Last Updated: 2/10/2020
+#Last Updated: 3/15/2021
 
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
-
+import json 
+from functions import cutter
 
 #loading the data
 df = pd.read_csv('data/cni_tweets.csv')
@@ -101,7 +102,7 @@ mergedf =pd.DataFrame(data = primelist, index = indexlist2)
 df.Text.iloc[indexlist2[400]]
 mergedf.iloc[400]
 
-for i in range(0, len(indexlist2):
+for i in range(0, len(indexlist2)):
     df.replace(to_replace= df.Text.iloc[indexlist2[i]], value= mergedf.iloc[i])
 #saved this to csv, complete_tweets
 
@@ -135,7 +136,7 @@ for i in range(0,len(df.Language)):
         morespam.append(i)
 #language 'or' are just paper title with url, so probably don't need them either
 
-#rows 1945-1948 are spam, but not deparcated by language tag
+#rows 1945-1948 are spam, but not demarcated by language tag
 #ID values for these rows are:
 1204381864087166977
 1204205653893566464
@@ -145,7 +146,7 @@ df = df[df["ID"] != 1204381864087166977]
 df = df[df["ID"] != 1204205653893566464]
 df = df[df["ID"] != 1204204698397483010]
 df = df[df["ID"] != 1204193158080401414]
-df.drop(axis = 0, index= )
+
 spamlist =[1943, 1944, 1945, 1946]
 for i in spamlist:
     df.drop(axis=0, index=i, inplace=True)
@@ -173,6 +174,22 @@ n_rts = []
 #finding average number of followers
 df.groupby('username').mean().follower_count.mean()
 
+retweet_list = []
+for i in indexlist:
+    retweet_list.append(df.Text[i])
+
+retwote = []
+for i in retweet_list:
+    retwote.append(cutter(i))
+len(retwote)
+df['retwote'] = 0
+for i in range(0,2037):
+    count = 0
+    for j in range(0,786):
+        if df.username[i] == retwote[j]:
+            count += 1
+    df.retwote[i] = count
+
 for i in range(0,653):
     count = 0
     for j in range(0,786):
@@ -180,7 +197,7 @@ for i in range(0,653):
             count += 1
     n_rts.append(count)
 for i in range(653):
-print('{}, {}rts'.format(handles_[i],n_rts[i]))
+    print('{}, {}rts'.format(handles_[i],n_rts[i]))
 #cni is number 410 with 25 retweets
 
 #seperating date from time information
@@ -229,7 +246,7 @@ for i in range(0, 653):
 print(mcount[410])  #113
 real_count = 1864 - 113 -223  # 1528
 #real answer is . . . 
-1528 / 651 = 2.4
+1528 / 651 # = 2.4
 #This still rounds to 3
 
 #dealing with location data
@@ -280,7 +297,7 @@ otherloc2 = [['London', 'England'],
  ['Linz', 'Austria'],
  ['Paris', 'France']]
 
- ulist = [['Columbia', 'University']]
+ulist = [['Columbia', 'University']]
 
 
 #to get city coordinate data
